@@ -1,0 +1,27 @@
+name: Deploy to Server
+
+on:
+  repository_dispatch:
+    types: [deploy]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.DEPLOY_KEY }}
+          script: |
+            docker pull faycal99/backend-app:latest
+            docker stop backend-app || true
+            docker rm backend-app || true
+            docker run -d --name backend-app -p 8081:8081 faycal99/backend-app:latest
+
+            docker pull faycal99/frontend-app:latest
+            docker stop frontend-app || true
+            docker rm frontend-app || true
+            docker run -d --name frontend-app -p 80:80 faycal99/frontend-app:latest
