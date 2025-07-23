@@ -21,7 +21,7 @@ jobs:
             docker rm backend-app || true
             docker run -d --name backend-app -p 8081:8081 faycal99/backend-app:latest
 
-            docker pull faycal99/frontend-app:latest
+            docker pull red1408/frontend-app:latest
             docker stop frontend-app || true
             docker rm frontend-app || true
             docker run -d --name frontend-app -p 80:80 faycal99/frontend-app:latest
