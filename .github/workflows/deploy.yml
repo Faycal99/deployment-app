@@ -11,14 +11,12 @@ jobs:
     steps:
       - name: Deploy Backend
         run: |
-          docker pull faycal99/backend-app:latest
-          docker stop backend-app -ErrorAction SilentlyContinue
-          docker rm backend-app -ErrorAction SilentlyContinue
-          docker run -d --name backend-app -p 8081:8081 faycal99/backend-app:latest
+         docker pull faycal99/backend-app:latest
+         try { docker rm -f backend-app } catch {}
+         docker run -d --name backend-app -p 8081:8081 faycal99/backend-app:latest
 
       - name: Deploy Frontend
         run: |
-          docker pull red1408/frontend-app:latest
-          docker stop frontend-app -ErrorAction SilentlyContinue
-          docker rm frontend-app -ErrorAction SilentlyContinue
-          docker run -d --name frontend-app -p 80:80 red1408/frontend-app:latest
+         docker pull red1408/frontend-app:latest
+         try { docker rm -f frontend-app } catch {}
+         docker run -d --name frontend-app -p 80:80 red1408/frontend-app:latest
