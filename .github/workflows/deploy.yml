@@ -14,9 +14,10 @@ jobs:
 
       - name: Deploy full stack with docker-compose
         run: |
-          docker-compose -f ./docker-compose.yml pull
-          docker-compose -f ./docker-compose.yml down
-          docker-compose -f ./docker-compose.yml up -d --remove-orphans
+         docker rm -f backend-app || true
+         docker-compose -f ./docker-compose.yml down
+         docker-compose -f ./docker-compose.yml pull
+         docker-compose -f ./docker-compose.yml up -d --remove-orphans
 
   #  steps:
    #   - name: Deploy Backend
