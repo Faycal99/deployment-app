@@ -12,12 +12,20 @@ services:
       - postgres-data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U Gestion_Courier_User -d Gestion_Courier_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - app-network
 
   backend:
     image: faycal99/backend-app:latest
     container_name: backend-app
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/Gestion_Courier_db
       SPRING_DATASOURCE_USERNAME: Gestion_Courier_User
