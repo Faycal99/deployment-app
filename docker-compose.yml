@@ -1,0 +1,44 @@
+version: "3.8"
+
+services:
+  db:
+    image: postgres:14
+    container_name: postgres-db
+    environment:
+      POSTGRES_DB: Gestion_Courier_db
+      POSTGRES_USER: Gestion_Courier_User
+      POSTGRES_PASSWORD: gc2025
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  backend:
+    image: faycal99/backend-app:latest
+    container_name: backend-app
+    depends_on:
+      - db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/Gestion_Courier_db
+      SPRING_DATASOURCE_USERNAME: Gestion_Courier_User
+      SPRING_DATASOURCE_PASSWORD: gc2025
+    ports:
+      - "8081:8081"
+    networks:
+      - app-network
+
+  frontend:
+    image: red1408/frontend-app:latest
+    container_name: frontend-app
+    depends_on:
+      - backend
+    ports:
+      - "80:80"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+
+volumes:
+  postgres-data:
