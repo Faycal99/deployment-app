@@ -51,4 +51,5 @@ networks:
     driver: bridge
 
 volumes:
- - postgres-data:/var/lib/postgresql/data
+  postgres-data:
+
