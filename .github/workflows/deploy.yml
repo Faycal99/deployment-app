@@ -10,18 +10,15 @@ jobs:
 
     steps:
       - name: Deploy via SSH
-        uses: appleboy/ssh-action@v1.0.0
-        with:
-          host: ${{ secrets.SERVER_HOST }}
-          username: ${{ secrets.SERVER_USER }}
-          key: ${{ secrets.DEPLOY_KEY }}
-          script: |
-            docker pull faycal99/backend-app:latest
-            docker stop backend-app || true
-            docker rm backend-app || true
-            docker run -d --name backend-app -p 8081:8081 faycal99/backend-app:latest
+        run: |
+          docker pull faycal99/backend-app:latest
+          docker stop backend-app || true
+          docker rm backend-app || true
+          docker run -d --name backend-app -p 8081:8081 faycal99/backend-app:latest
 
-            docker pull red1408/frontend-app:latest
-            docker stop frontend-app || true
-            docker rm frontend-app || true
-            docker run -d --name frontend-app -p 80:80 red1408/frontend-app:latest
+      - name: Deploy Frontend
+        run: |
+          docker pull red1408/frontend-app:latest
+          docker stop frontend-app || true
+          docker rm frontend-app || true
+          docker run -d --name frontend-app -p 80:80 red1408/frontend-app:latest
