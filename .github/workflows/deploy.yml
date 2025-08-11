@@ -16,6 +16,7 @@ jobs:
         run: |
          docker rm -f backend-app
          docker rm -f frontend-app
+         docker rm -f postgres-db
          docker-compose -f ./docker-compose.yml down
          docker-compose -f ./docker-compose.yml pull
          docker-compose -f ./docker-compose.yml up -d --remove-orphans
